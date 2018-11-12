@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const pgp = require("pg-promise")();
 const db = pgp({
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || "localhost",
   port: 5432,
   database: process.env.DB_NAME,
   user: process.env.DB_USERNAME,
@@ -13,9 +13,8 @@ const db = pgp({
 });
 
 
-
 app.use(bodyParser.json());
-app.use('/static', express.static('static'));
+// app.use('/static', express.static('static'));
 app.set('view engine', 'hbs');
 
 app.get('/', function(req, res){
@@ -28,14 +27,29 @@ app.get('/dishes', function(req, res){
   .catch(error => res.status(400).json({error:error.message}))
 });
 
-app.post('/orders', function(req, res){
-  const orderDetails = req.body;
-  const {dish_id, quantity} = orderDetails;
-  db.one(`insert into 'orders'(id) values(default) returning id`)
+app.get('/orders', function(req, res){
+  db.any(`select * from orders`)
+  .then(data => res.json(data))
+  .catch(error => res.status(400).json({error:error.message}))
+});
+
+app.post("/orders", function(req, res){
+  const orderDetails = Object.values(req.body);
+console.log(orderDetails)
+  db.one(`insert into orders(id) values(default) returning id`)
   .then(data => {
-    db.none(`insert into 'dishes_orders'(id, dish_id, quantity, order_id) values (default, $1, $2, $3) returning id`,[dish_id, quantity,data.id])
+    return Promise.all(
+            orderDetails.map(item => {
+              const { dish_id, quantity } = item;
+              return db.none(
+                `insert into dishes_orders(dish_id, order_id,quantity)
+            VALUES($1, $2, $3)`,
+                [dish_id, data.id, quantity]
+              )
+            })
+          ).then(()=>data.id)
   })
-  .then(data => data.id)
+  .then(orderId => res.json({ order_id: orderId, message: "new order accepted" }))
   .catch(error => res.status(400).json({error: error.message}))
 });
 
