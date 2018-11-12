@@ -25,11 +25,11 @@ foreign key (user_id) references users (id)
 
 create table dishes_orders (
 id serial primary key,
-order_id int,
 dish_id int,
+quantity int not null,
+order_id int,
 foreign key (order_id) references orders (id),
-foreign key (dish_id) references dishes (id),
-quantity int not null
+foreign key (dish_id) references dishes (id)
 );
 
 insert into dishes values (

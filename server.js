@@ -33,9 +33,12 @@ app.post('/orders', function(req, res){
   const {dish_id, quantity} = orderDetails;
   db.one(`insert into 'orders'(id) values(default) returning id`)
   .then(data => {
-    db.none(`insert into 'dishes_orders'(id, dish_id, quantity, order_id) values (default, $1, $2, )`)
+    db.none(`insert into 'dishes_orders'(id, dish_id, quantity, order_id) values (default, $1, $2, $3) returning id`,[dish_id, quantity,data.id])
   })
-})
+  .then(data => data.id)
+  .catch(error => res.status(400).json({error: error.message}))
+});
+
 const port = process.env.PORT || 8080;
 app.listen( port, function(){
   console.log(`Listening on port number ${port}`);
