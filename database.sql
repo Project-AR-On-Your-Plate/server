@@ -61,3 +61,15 @@ default,
 'Afternoon tea',
 'https://poly.googleapis.com/downloads/2cX88a40PMz/fqrE8mMo9fi'
 );
+
+alter table dishes drop column url;
+alter table dishes add column obj text;
+alter table dishes add column mtl text;
+
+update dishes set obj='https://lh3.googleusercontent.com/pmGBEfwi1b2jwL6lb29uE_pmGIlBy9Mt8Dsz-_wwZSk_N16JRCLbqRxOlAr1JS-v/model.obj' where id =1;
+update dishes set mtl='https://lh3.googleusercontent.com/pmGBEfwi1b2jwL6lb29uE_pmGIlBy9Mt8Dsz-_wwZSk_N16JRCLbqRxOlAr1JS-v/materials.mtl' where id =1;
+
+update dishes set obj='https://lh3.googleusercontent.com/GewMgUIDU24-ViwS2osK4SF2GUGZkJdyKdXN8fYuAYx0Xu-WPbxfRwcLwH2k9IY/model.obj' where id =2;
+update dishes set mtl='https://lh3.googleusercontent.com/GewMgUIDU24-ViwS2osK4SF2GUGZkJdyKdXN8fYuAYx0Xu-WPbxfRwcLwH2k9IY/materials.mtl' where id =2;
+update dishes set category='starter' where id =2;
+delete from dishes where id=3;
