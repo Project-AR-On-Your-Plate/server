@@ -33,8 +33,15 @@ app.get('/orders', function(req, res){
   .catch(error => res.status(400).json({error:error.message}))
 });
 
+app.get('/dishes_orders', function(req, res){
+  db.any(`select * from dishes_orders`)
+  .then(data => res.json(data))
+  .catch(error => res.status(400).json({error:error.message}))
+});
+
 app.post("/orders", function(req, res){
-  const orderDetails = Object.values(req.body);
+  const orderObject = req.body;
+  const orderDetails = Object.values(orderObject);
 console.log(orderDetails)
   db.one(`insert into orders(id) values(default) returning id`)
   .then(data => {
@@ -49,7 +56,7 @@ console.log(orderDetails)
             })
           ).then(()=>data.id)
   })
-  .then(orderId => res.json({ order_id: orderId, message: "new order accepted" }))
+  .then(orderId => res.json({ order: Object.assign({}, orderObject, {order_id: orderId})}))
   .catch(error => res.status(400).json({error: error.message}))
 });
 
