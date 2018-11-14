@@ -22,7 +22,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/dishes', function(req, res){
-  db.any(`select * from dishes`)
+  db.any(`select * from dishes order by category desc`)
   .then(data => res.json(data))
   .catch(error => res.status(400).json({error:error.message}))
 });
