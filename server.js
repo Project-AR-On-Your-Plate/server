@@ -56,7 +56,7 @@ console.log(orderDetails)
             })
           ).then(()=>data.id)
   })
-  .then(orderId => res.json({ order: Object.assign({}, orderObject, {order_id: orderId})}))
+  .then(orderId => res.json({ order: orderObject, order_id: orderId}))
   .catch(error => res.status(400).json({error: error.message}))
 });
 
