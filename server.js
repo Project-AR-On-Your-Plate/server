@@ -45,9 +45,9 @@ app.get("/dishes_orders", function(req, res) {
 });
 
 app.post("/orders", function(req, res) {
-  const orderObject = req.body;
 
-  const currentOrder = orderObject.currentOrder;
+
+  const currentOrder = req.body;
   const userDetails = currentOrder.user;
   const orderDetails = currentOrder.order;
   // const orderDetails = Object.values(currentOrder).filter(
