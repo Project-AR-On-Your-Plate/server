@@ -93,7 +93,7 @@ app.post("/orders", function(req, res) {
           ).then(() => order.id);
         });
     })
-    .then(orderId => res.json({ order: orderObject, order_id: orderId }))
+    .then(orderId => res.json({ order: currentOrder, order_id: orderId }))
     .catch(error => res.status(400).json({ error: error.message }));
 });
 
