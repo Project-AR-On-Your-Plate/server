@@ -49,9 +49,10 @@ app.post("/orders", function(req, res) {
 
   const currentOrder = orderObject.currentOrder;
   const userDetails = currentOrder.user;
-  const orderDetails = Object.values(currentOrder).filter(
-    item => item !== userDetails
-  );
+  const orderDetails = currentOrder.order;
+  // const orderDetails = Object.values(currentOrder).filter(
+  //   item => item !== userDetails
+  // );
 
   const { user_name, phone } = userDetails;
   db.one(`insert into users(user_name, phone) values($1, $2) returning id`, [
@@ -80,7 +81,7 @@ app.post("/orders", function(req, res) {
             .catch(error => console.log(error.message));
 
           return Promise.all(
-            orderDetails.map(item => {
+            Object.values(orderDetails).map(item => {
               const { dish_id, quantity } = item;
 
               return db.none(
