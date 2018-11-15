@@ -18,7 +18,6 @@ const notifyServiceSid = process.env.TWILIO_NOTIFY_SERVICE_SID;
 
 const client = require("twilio")(accountSid, authToken);
 
-
 app.use(bodyParser.json());
 // app.use('/static', express.static('static'));
 app.set("view engine", "hbs");
@@ -67,20 +66,18 @@ app.post("/orders", function(req, res) {
         )
         .then(order => {
           client.notify
-                      .services(notifyServiceSid)
-                      .notifications.create({
-                        toBinding: JSON.stringify({
-                          binding_type: "sms",
-                          address: `${phone}`
-                        }),
-                        body: `Hi ${user_name}! Your order (id: ${
-                          order.id
-                        }) is accepted. We are preparing your food.`
-                      })
-                      .then(notification => console.log(notification.sid))
-                      .catch(error => console.log(error.message));
-
-
+            .services(notifyServiceSid)
+            .notifications.create({
+              toBinding: JSON.stringify({
+                binding_type: "sms",
+                address: `${phone}`
+              }),
+              body: `Hi ${user_name}! Your order (id: ${
+                order.id
+              }) is accepted. We are preparing your food.`
+            })
+            .then(notification => console.log(notification.sid))
+            .catch(error => console.log(error.message));
 
           return Promise.all(
             orderDetails.map(item => {
