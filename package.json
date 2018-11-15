@@ -7,7 +7,7 @@
     "test": "jest",
     "start": "node server.js",
     "dev": "nodemon server.js"
-  },  
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -22,7 +22,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-responsive-modal": "^3.4.0",
-    "twilio": "^3.23.1"
+    "twilio": "^3.23.2"
   },
   "devDependencies": {
     "enzyme": "^3.3.0",

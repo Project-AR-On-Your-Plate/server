@@ -245,3 +245,6 @@ update dishes set dish_name='Pepperoni pizza' where id=4;
 
 alter table dishes add column quantity int;
 update dishes set quantity=0;
+
+alter table users drop column user_password;
+alter table users add column phone varchar(50);
