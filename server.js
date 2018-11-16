@@ -75,7 +75,7 @@ app.post("/orders", function(req, res) {
               }),
               body: `Hi ${user_name}! Your order (id: ${
                 order.id
-              }) is accepted. We are preparing your food.`
+              }) is accepted. It will be ready for collection in 15min. `
             })
             .then(notification => console.log(notification.sid))
             .catch(error => console.log(error.message));
